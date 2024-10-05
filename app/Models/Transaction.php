@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Transaction extends Model
 {
     use HasFactory;
 
@@ -16,14 +16,12 @@ class Invoice extends Model
      */
     protected $fillable = [
         'company_id',
-        'invoice_number',
-        'invoice_date',
-        'due_date',
-        'client_name',
-        'client_tax_id',
+        'invoice_id',
+        'transaction_date',
+        'transaction_type',
         'amount',
-        'status',
-        'type',
+        'currency',
+        'category',
     ];
 
     /**
@@ -32,24 +30,23 @@ class Invoice extends Model
      * @var array
      */
     protected $casts = [
-        'invoice_date' => 'date',
-        'due_date' => 'date',
+        'transaction_date' => 'date',
         'amount' => 'decimal:2',
     ];
 
     /**
-     * Get the company that owns the invoice.
+     * Get the company that owns the transaction.
      */
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
 
-    // /**
-    //  * Get the payments related to this invoice.
-    //  */
-    // public function payments()
-    // {
-    //     return $this->hasMany(Payment::class);
-    // }
+    /**
+     * Get the invoice associated with the transaction.
+     */
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }
