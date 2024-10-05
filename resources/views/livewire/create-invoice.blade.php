@@ -1,4 +1,4 @@
-<div class="w-full flex overflow-hidden px-16 text-base bg-slate-800 max-md:px-5 h-full">
+<div class="max-w-7xl relative mx-auto items-center justify-center flex overflow-hidden px-16 text-base bg-slate-800 max-md:px-5 h-full">
     <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a3584ee97c91245e4f1aff76d5c47ffbe751e27c98600e1d83616fc85d76ed86?placeholderIfAbsent=true&amp;apiKey=5bd982c0b2014e2fb08de87d41f16590" class="absolute top-6 left-6">
     <div class="mx-auto">
         <div class="flex flex-col justify-center items-center px-20 py-48 max-w-full rounded-full border border-dashed border-stone-500 w-[902px] max-md:px-5 max-md:py-24">
@@ -13,15 +13,30 @@
                         Create invoices instantly by typing or speaking to our AI. It fills out all the details and generates a professional template for you!
                     </div>
                 </div>
-                <div class="{{ $step > 0 ? 'transition-fade-in' : 'transition-fade-out' }}">
+                
+                <div class="absolute bottom-0 left-0 w-[70%] chat-container">
+                    
+                    <div 
+                    style="background: rgba(43, 59, 87, 0.7);"
+                    class="p-9 chat-log {{ $step > 0 ? 'transition-fade-in' : 'transition-fade-out' }}">
 
-                    @foreach ($chatHistory as $message)
-                            <div class="message text-white">
-                                 {{  $message }}
-                            </div>
-                    @endforeach
-                </div>
-                <div class="chat-container">
+                        @foreach ($chatHistory as $message)
+                                <div class="message text-white py-4 rounded mb-6">
+                                    @if(is_string($message))
+                                    <div class="items-end">
+                                     {!!  $message !!}
+                                    </div>
+                                     @else 
+                                        {!! $message['content'] !!}
+
+                                        <small>
+
+                                        </small>
+                                     @endif
+                                </div>
+                        @endforeach
+                    </div>
+
                     <form class="flex" wire:submit.prevent="start">
                         <div class="flex gap-3 items-center self-end mt-6 mr-6 mb-0 leading-none text-stone-500 max-md:mr-2.5 max-md:mb-2.5 max-md:max-w-full">
                             <div class="flex gap-2.5 items-start self-stretch my-auto min-h-[52px] min-w-[240px] w-[387px]">
@@ -30,7 +45,7 @@
                                     <div class="">
                                     </div>
                                 </div>
-                                <input type="submit" value="Next " class="flex gap-2.5 items-center px-4 py-2.5 text-base font-medium leading-none whitespace-nowrap bg-lime-400 rounded-lg text-slate-800 flex flex-col self-stretch my-auto w-36">
+                                <input type="submit" value="@if(!$loading) Next @else Loading... @endif" class="flex gap-2.5 items-center px-4 py-2.5 text-base font-medium leading-none whitespace-nowrap bg-lime-400 rounded-lg text-slate-800 flex flex-col self-stretch my-auto w-36">
                             </div>
                         </div>
                     </form>
