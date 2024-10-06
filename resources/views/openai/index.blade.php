@@ -5,5 +5,4 @@
         <h1 class="text-3xl font-semibold mb-4">OpenAI Interaction</h1>
         <livewire:chat-component>
     </div>
-
 @endsection

@@ -48,8 +48,8 @@ class Invoice extends Model
     // /**
     //  * Get the payments related to this invoice.
     //  */
-    // public function payments()
-    // {
-    //     return $this->hasMany(Payment::class);
-    // }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

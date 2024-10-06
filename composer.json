@@ -10,9 +10,11 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
-        "openai-php/client": "^0.10.1"
+        "openai-php/client": "^0.10.1",
+        "openai-php/laravel": "^0.10.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",

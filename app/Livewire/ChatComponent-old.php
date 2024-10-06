@@ -2,64 +2,33 @@
 
 namespace App\Livewire;
 
-use App\Models\UserMessage;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
-use OpenAI;
 
-class CreateInvoice extends Component
+class ChatComponent extends Component
 {
-    public $userPrompt = "";
-    public $aiResponse = [];
-    public $loading = false;
-    public $step = 0;
-    public $chatHistory = [];
-    public $invoice_template;
-    public $company_details;
-
-    public function render()
-    {
-        return view('livewire.create-invoice');
+    public $message;
+    public $fullHtml;
+    public $selectedHtml;
+    public $responseHtml;
+    public $summary;
+    public $error;
+    public function mount() {
+       
     }
-
     public function start()
     {
-        $this->step++;
-        $this->company_details = "
-        Įmonės pavadinimas: UAB Linijos
-        Direktorius: Tomas Stasiulevičius
-Adresas	Maironio g. 6-4, LT-60169 Raseiniai 
-Mob.telefonas	+370644335 Linijos telefonas
-Vadovo telefonas	Linijos Vadovo telefonas
-El. pašto adresas	Susisiekti el. paštu
-Tinklalapis	http://www.linijos.lt 
-Įvertinimas 	
-12345678910
-9.4 / 10 (įvertino 77)
-Facebook paskyra	https://www.facebook.com/studija.linijos/
-Bankas	Swedbank
-Atsiskaitomoji sąskaita	LT527300010082838187
-Darbo laikas	24/7
-Darbuotojai	2 darbuotojai (apdraustieji)
-Pardavimo pajamos	445 482 € (2023 m.)
-Grynasis pelnas	77 278 € (2023 m.)
-Eksportas	2023: 5% nuo apyvartos Didžioji Britanija, Jungtinės Amerikos Valstijos 
-Sumokėti mokesčiai	
-
-Nauja 5 000 € (2024 m. rugpjūtis)
-Įstatinis kapitalas	7 497,08 €
-Įmonės amžius	20 metų 8 mėnesiai 7 dienos";
-        $this->loading = true;
-      
+        $this->loading = true; 
         $this->dispatch('some-event'); // Useless
         // Save user message
         $saved_message = new UserMessage();
         $saved_message->message = $this->userPrompt;
         $saved_message->role = 'user';
-        $saved_message->chat_id = 1;
+        $saved_message->chat_id = 2;
         $saved_message->save();
 
         // Add user message to chat history
-        $this->chatHistory[] = ['role' => 'user', 'content' => $this->userPrompt . 'This is Business details to use for invoice sender: '. $this->company_details .'. This is the current template:' . $this->invoice_template];
+        $this->chatHistory[] = ['role' => 'user', 'content' => $this->userPrompt . 'This is the current template:' . $this->invoice_template];
 
         // Clear input field
         $this->userPrompt = "";
@@ -74,9 +43,9 @@ Nauja 5 000 € (2024 m. rugpjūtis)
 
         $message = end($this->chatHistory)['content'];
 
-        // Load the invoice template from file
-        $path = resource_path('views/templates/invoice-template.blade.php');
-        $templateContent = file_get_contents($path);
+        // // Load the invoice template from file
+        // $path = resource_path('views/templates/invoice-template.blade.php');
+        // $templateContent = file_get_contents($path);
 
         // Add current template to the message for the AI
 
@@ -85,7 +54,7 @@ Nauja 5 000 € (2024 m. rugpjūtis)
 
         try {
             // System prompt to guide the AI response
-            $systemPrompt = "You are a helpful assistant that provides assistance on accounting questions in Lithuania. You are an expert accountant and can answer questions about taxes, compliance, relevant dates, and provide reports to upper management. You generate invoice templates and list any missing questions required to complete an invoice. Please ensure you use this Invoice template with details about customer information. Template code you must use: " . $templateContent;
+            $systemPrompt = "You are a helpful assistant that provides assistance on accounting questions in Lithuania. You are an expert accountant and can answer questions about taxes, compliance, relevant dates, and provide reports to upper management. You answer questions about existing invoices available to you and provide details about adhering to the tax year events in the context of VMI (Valstybinė mokesčių inspekcija).";
 
             // Prepare the messages for the AI service
             $messages = array_merge(
@@ -111,13 +80,13 @@ Nauja 5 000 € (2024 m. rugpjūtis)
 
             // Call the AI service
             $result = $client->chat()->create([
-                'model' => 'gpt-4o-mini', // Assistant model name
+                'model' => 'gpt-4o-2024-08-06', // Assistant model name
                 'messages' => $messages,
-                'response_format' => [
-                    'type' => 'json_schema',
-                    'json_schema' => $jsonSchema
-                ],
-                'max_tokens' => 1500,
+                // 'response_format' => [
+                //     'type' => 'json_schema',
+                //     'json_schema' => $jsonSchema
+                // ],
+                'max_tokens' => 15000,
             ]);
 
             // Parse the AI response
@@ -178,5 +147,10 @@ Nauja 5 000 € (2024 m. rugpjūtis)
             // Set loading to false after the operation is complete
             $this->loading = false;
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.chat-component');
     }
 }
