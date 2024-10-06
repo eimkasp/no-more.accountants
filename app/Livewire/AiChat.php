@@ -16,7 +16,7 @@ class AiChat extends Component
     public $chatHistory = [];
     public $lastMessageId = null; // Add this to track the last message ID
 
-    private $apiKey;
+    public $apiKey;
     private $assistantId = 'asst_siWSaSJLicnDwkMFXyVTTPAm';
     private $apiUrl = 'https://api.openai.com/v1';
     public function mount() {
@@ -209,10 +209,6 @@ class AiChat extends Component
     private function getNewContent($threadId, $lastMessageId = null)
     {
         $url = $this->apiUrl . "/threads/$threadId/messages";
-        $headers = [
-            "Authorization: Bearer $this->apiKey",
-            "OpenAI-Beta: assistants=v1"
-        ];
 
         $response = $this->getRequest($url);
 
@@ -231,7 +227,8 @@ class AiChat extends Component
     }
 
     private function postRequest($url, $data)
-    {
+    {   
+        Log::info('POST API Key:' . $this->apiKey);
         $headers = [
             'Content-Type: application/json',
             'Authorization: Bearer ' . $this->apiKey,
@@ -251,6 +248,7 @@ class AiChat extends Component
     
         // Log the URL, HTTP code, response, and any cURL error
         Log::info('cURL Request to URL:', ['url' => $url]);
+        
         Log::info('HTTP Code:', ['httpCode' => $httpCode]);
     
         if ($error) {
@@ -268,6 +266,7 @@ class AiChat extends Component
 
     private function getRequest($url)
     {
+        Log::info('GET API Key:' . $this->apiKey);
         $headers = [
             'Authorization: Bearer ' . $this->apiKey,
             'OpenAI-Beta: assistants=v1',
