@@ -16,7 +16,7 @@ class UploadInvoice extends Component
 {
      
     #[Url] 
-    public $activeTab = 'upload';
+    public $activeTab = 'create-invoice';
 
 
     public function setActiveTab($tab)
