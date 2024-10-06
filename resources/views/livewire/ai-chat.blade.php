@@ -1,10 +1,10 @@
 <div x-data="{ step: @entangle('step') }" class="relative mx-auto flex items-start text-base max-md:px-5 h-full">
     <div class="mx-auto">
         <div class="w-full">
-            <div class="grid grid-cols-12 gap-6">
+            <div class="grid grid-cols-12">
 
                 <!-- Chat Container -->
-                <div class="w-full chat-container @if ($step == 0) col-span-12 @else col-span-7 @endif">
+                <div class="w-full chat-container col-span-12">
                     <div class="mb-6" x-show="step > 0">
                         <!-- Suggestions if available -->
                         @if (isset($aiResponse['suggestions']))
@@ -78,9 +78,10 @@
                             <div class="flex items-center bg-white rounded-full shadow-md w-full px-5 py-3">
                                 <input autofocus wire:model.defer="userPrompt" type="text"
                                        class="flex-1 bg-transparent outline-none text-black"
-                                       placeholder="Type your request" @keydown.enter.prevent="start">
+                                       placeholder="Type your request" @keydown.enter.prevent="$wire.start()">
                             </div>
                             <button type="submit"
+                                 wire:submit.prevent="start"
                                 class="h-full flex items-center justify-center px-4 py-2.5 text-base font-medium leading-none whitespace-nowrap bg-lime-400 hover:bg-lime-500 rounded-full text-slate-800 w-36 transition-colors duration-300">
                                 <span wire:loading.remove>Next</span>
                                 <span wire:loading>Loading...</span>

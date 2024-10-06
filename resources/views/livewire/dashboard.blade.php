@@ -199,7 +199,7 @@
                                             class="mt-2 text-2xl font-medium leading-none bg-blend-normal text-slate-800">
                                             Hello, I’m Billy!
                                         </div>
-                                        <div class="flex flex-col self-stretch px-5 mt-48 w-full text-sm max-md:mt-10">
+                                        <div class="flex flex-col self-stretch px-5 mt-24 w-full text-sm max-md:mt-10">
 
                    
                                                  <livewire:ai-chat>
