@@ -25,29 +25,14 @@ class CreateInvoice extends Component
     {
         $this->step++;
         $this->company_details = "
-        Įmonės pavadinimas: UAB Linijos
-        Direktorius: Tomas Stasiulevičius
-Adresas	Maironio g. 6-4, LT-60169 Raseiniai 
-Mob.telefonas	+370644335 Linijos telefonas
-Vadovo telefonas	Linijos Vadovo telefonas
-El. pašto adresas	Susisiekti el. paštu
-Tinklalapis	http://www.linijos.lt 
-Įvertinimas 	
-12345678910
-9.4 / 10 (įvertino 77)
-Facebook paskyra	https://www.facebook.com/studija.linijos/
-Bankas	Swedbank
-Atsiskaitomoji sąskaita	LT527300010082838187
-Darbo laikas	24/7
-Darbuotojai	2 darbuotojai (apdraustieji)
-Pardavimo pajamos	445 482 € (2023 m.)
-Grynasis pelnas	77 278 € (2023 m.)
-Eksportas	2023: 5% nuo apyvartos Didžioji Britanija, Jungtinės Amerikos Valstijos 
-Sumokėti mokesčiai	
-
-Nauja 5 000 € (2024 m. rugpjūtis)
-Įstatinis kapitalas	7 497,08 €
-Įmonės amžius	20 metų 8 mėnesiai 7 dienos";
+        Įmonės pavadinimas: 
+        Direktorius: 
+        Adresas:
+        Mob.telefonas:
+        Vadovo telefonas:
+        El. pašto adresas:
+        Tinklalapis:
+        ";
         $this->loading = true;
       
         $this->dispatch('some-event'); // Useless
